@@ -29,6 +29,8 @@ Route::middleware(['auth'])->group(function() {
         // Pemrakarsa/Pengajuan Prosun
         Route::group(['prefix' => 'post-article'], function () {
             Route::get('/', [PostArticleController::class, 'index'])->name('post-article.index');
+            Route::post('/insert', [PostArticleController::class, 'insert'])->name('post-article.insert');
+            Route::get('/get/{id?}', [PostArticleController::class, 'get'])->name('post-article.get');
             Route::get('/datatable', [PostArticleController::class, 'datatable'])->name('post-article.datatable');
         });
     });

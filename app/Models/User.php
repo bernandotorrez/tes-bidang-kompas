@@ -58,4 +58,9 @@ class User extends Authenticatable
     {
         return $this->orderBy;
     }
+
+    public function Articles()
+    {
+        return $this->hasMany(Article::class, 'created_by');
+    }
 }

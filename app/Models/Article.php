@@ -22,4 +22,14 @@ class Article extends Model
     {
         return $this->orderBy;
     }
+
+    public function UserCreated()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function UserPublished()
+    {
+        return $this->belongsTo(User::class, 'published_by');
+    }
 }

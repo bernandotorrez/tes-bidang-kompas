@@ -30,21 +30,6 @@ class CreateUsersTable extends Migration
             });
         }
 
-        $this->insertData();
-
-    }
-
-    // Insert Admin User
-    private function insertData()
-    {
-        User::create([
-            'username' => 'admin',
-            'name' => 'Admin',
-            'email' => 'mail.bernand@gmail.com',
-            'password' => Hash::make('admin'),
-            'level' => 'Adm',
-            'status' => '1'
-        ]);
     }
 
     /**
