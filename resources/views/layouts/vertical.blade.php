@@ -19,14 +19,14 @@
 
             @if(Auth::user()['level'] == 'Rpt')
             <ul class="navbar-nav flex-column">
-                <li class="nav-item">
+                <li class="nav-item {{ (request()->is('home')) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('home.index') }}" >
                         <span class="feather-icon"><i data-feather="home"></i></span>
                         <span class="nav-link-text">Home</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="documentation.html" >
+                <li class="nav-item {{ (request()->is('reporter/post-article')) ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('post-article.index') }}" >
                         <span class="feather-icon"><i data-feather="edit"></i></span>
                         <span class="nav-link-text">Write Article</span>
                     </a>
@@ -34,7 +34,7 @@
             </ul>
             @elseif(Auth::user()['level'] == 'Edt')
             <ul class="navbar-nav flex-column">
-                <li class="nav-item">
+                <li class="nav-item {{ (request()->is('home')) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('home.index') }}" >
                         <span class="feather-icon"><i data-feather="home"></i></span>
                         <span class="nav-link-text">Home</span>
@@ -49,7 +49,7 @@
             </ul>
             @else
             <ul class="navbar-nav flex-column">
-                <li class="nav-item">
+                <li class="nav-item {{ (request()->is('home')) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('home.index') }}" >
                         <span class="feather-icon"><i data-feather="home"></i></span>
                         <span class="nav-link-text">Home</span>

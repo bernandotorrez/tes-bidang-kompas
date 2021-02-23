@@ -17,8 +17,22 @@
 	<link href="{{ asset('vendors/jquery-toggles/css/toggles.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ asset('vendors/jquery-toggles/css/themes/toggles-light.css') }}" rel="stylesheet" type="text/css">
 
+    @stack('styles')
     <!-- Custom CSS -->
     <link href="{{ asset('dist/css/style.css') }}" rel="stylesheet" type="text/css">
+
+    <style>
+        td.details-control {
+            background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control {
+            background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+        }
+    </style>
+
+
 </head>
 
 <body>
@@ -78,9 +92,6 @@
     <script src="{{ asset('vendors/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('dist/js/select2-data.js') }}"></script>
 
-    <!-- Bootstrap Tagsinput JavaScript -->
-    <script src="{{ asset('vendors/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
-
     <!-- Daterangepicker JavaScript -->
     <script src="{{ asset('vendors/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('vendors/daterangepicker/daterangepicker.js') }}"></script>
@@ -95,6 +106,8 @@
 
     <!-- Init JavaScript -->
     <script src="{{ asset('dist/js/init.js') }}"></script>
+
+    @stack('scripts')
 </body>
 
 </html>
