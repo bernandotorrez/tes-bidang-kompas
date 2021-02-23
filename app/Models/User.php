@@ -48,4 +48,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $orderBy = [
+        'by' => 'username',
+        'order' => 'asc'
+    ];
+
+    public function getOrderBy()
+    {
+        return $this->orderBy;
+    }
 }

@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
                 $table->string('email')->unique();
                 $table->timestamp('email_verified_at')->nullable();
                 $table->string('password');
+                $table->dateTime('login_at')->nullable();
                 $table->enum('level', ['Rpt', 'Edt', 'Adm'])->default('Rpt')->comment('Rpt : Reporter, Edt : Editor, Adm : Admin');
                 $table->enum('status', ['0', '1'])->default('1')->comment('Status Active');
                 $table->rememberToken();
@@ -36,12 +37,12 @@ class CreateUsersTable extends Migration
     // Insert Admin User
     private function insertData()
     {
-        User::created([
+        User::create([
             'username' => 'admin',
             'name' => 'Admin',
             'email' => 'mail.bernand@gmail.com',
             'password' => Hash::make('admin'),
-            'level' => 'Rpt',
+            'level' => 'Adm',
             'status' => '1'
         ]);
     }
