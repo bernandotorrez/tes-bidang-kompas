@@ -19,6 +19,14 @@ class ArticleRepository extends BaseRepository
      */
     public function allActiveRelation(array $with)
     {
-        return $this->model->select('*')->where('status', '1')->where('created_by', Auth::user()['username'])->orderBy($this->orderBy['by'], $this->orderBy['order'])->with($with)->get();
+        $level = Auth::user()['level'];
+        $username = Auth::user()['username'];
+
+        if($level == 'Rpt') {
+            return $this->model->select('*')->where('status', '1')->where('created_by', $username)->orderBy($this->orderBy['by'], $this->orderBy['order'])->with($with)->get();
+        } else {
+            return $this->model->select('*')->where('status', '1')->orderBy($this->orderBy['by'], $this->orderBy['order'])->with($with)->get();
+        }
+
     }
 }

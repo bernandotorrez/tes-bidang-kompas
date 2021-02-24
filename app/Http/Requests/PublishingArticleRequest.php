@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class PostArticleRequest extends FormRequest
+class PublishingArticleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class PostArticleRequest extends FormRequest
      */
     public function authorize()
     {
-        return (Auth::user()['level'] == 'Rpt');
+        return (Auth::user()['level'] == 'Edt');
     }
 
     /**
@@ -28,6 +28,7 @@ class PostArticleRequest extends FormRequest
             'id_article' => 'required',
             'title' => 'required|min:3|max:250',
             'body' => 'required|min:3',
+            'published' => 'required|in:0,1'
         ];
     }
 }

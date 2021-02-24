@@ -3,6 +3,7 @@
 use App\Http\Controllers\PostArticleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PublishingArticleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,12 +27,25 @@ Route::middleware(['auth'])->group(function() {
 
     // Reporter Page
     Route::group(['prefix' => 'reporter', 'middleware' => ['auth.reporter']], function() {
-        // Pemrakarsa/Pengajuan Prosun
+        // Reporter/Post-Article
         Route::group(['prefix' => 'post-article'], function () {
             Route::get('/', [PostArticleController::class, 'index'])->name('post-article.index');
             Route::post('/insert', [PostArticleController::class, 'insert'])->name('post-article.insert');
             Route::get('/get/{id?}', [PostArticleController::class, 'get'])->name('post-article.get');
+            Route::post('/update', [PostArticleController::class, 'update'])->name('post-article.update');
+            Route::post('/delete', [PostArticleController::class, 'delete'])->name('post-article.delete');
             Route::get('/datatable', [PostArticleController::class, 'datatable'])->name('post-article.datatable');
+        });
+    });
+
+    // Editor Page
+    Route::group(['prefix' => 'editor', 'middleware' => ['auth.editor']], function() {
+        // Reporter/Publishing-Article
+        Route::group(['prefix' => 'publish-article'], function () {
+            Route::get('/', [PublishingArticleController::class, 'index'])->name('publish-article.index');
+            Route::get('/get/{id?}', [PublishingArticleController::class, 'get'])->name('publish-article.get');
+            Route::post('/update', [PublishingArticleController::class, 'update'])->name('publish-article.update');
+            Route::get('/datatable', [PublishingArticleController::class, 'datatable'])->name('publish-article.datatable');
         });
     });
 });

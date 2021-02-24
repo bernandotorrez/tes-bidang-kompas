@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostArticleRequest;
-use App\Models\Article;
-use App\Models\User;
+use App\Http\Requests\PublishingArticleRequest;
 use App\Repository\Eloquent\ArticleRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
-class PostArticleController extends Controller
+class PublishingArticleController extends Controller
 {
     protected $model;
 
@@ -21,48 +19,7 @@ class PostArticleController extends Controller
 
     public function index()
     {
-        return view('pages.post-article.index');
-    }
-
-    public function insert(PostArticleRequest $request)
-    {
-        $validated = $request->validated();
-
-        $data = array(
-            'title' => $validated['title'],
-            'body' => $validated['body'],
-            'created_by' => Auth::user()['username'],
-        );
-
-        $where = array('title' => $data['title']);
-        $checkDuplicate = $this->model->findDuplicate($where);
-
-        if($checkDuplicate > 0) {
-            return response()->json([
-                'httpStatus' => 200,
-                'status' => 'failed',
-                'message' => '<div class="alert alert-info">Judul Article : <strong>'.$data['title'].'</strong> Already Exist!</div>',
-                'data' => null
-            ]);
-        } else {
-            $insert = $this->model->create($data);
-
-            if($insert) {
-                return response()->json([
-                    'httpStatus' => 200,
-                    'status' => 'success',
-                    'message' => '<div class="alert alert-success">Success Add Data!</div>',
-                    'data' => $insert
-                ]);
-            } else {
-                return response()->json([
-                    'httpStatus' => 200,
-                    'status' => 'success',
-                    'message' => '<div class="alert alert-danger">Failed Add Data!</div>',
-                    'data' => null
-                ]);
-            }
-        }
+        return view('pages.publishing-article.index');
     }
 
     /**
@@ -100,13 +57,16 @@ class PostArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostArticleRequest $request)
+    public function update(PublishingArticleRequest $request)
     {
         $validated = $request->validated();
 
         $data = [
             'title' => $validated['title'],
             'body' => $validated['body'],
+            'published' => $validated['published'],
+            'published_by' => Auth::user()['username'],
+            'published_date' => date('Y-m-d H:i:s')
         ];
 
         $where = array(

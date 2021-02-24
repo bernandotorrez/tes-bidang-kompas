@@ -20,6 +20,7 @@
     @stack('styles')
     <!-- Custom CSS -->
     <link href="{{ asset('dist/css/style.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('dist/css/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
 
     <style>
         td.details-control {
@@ -106,6 +107,7 @@
 
     <!-- Init JavaScript -->
     <script src="{{ asset('dist/js/init.js') }}"></script>
+    <script src="{{ asset('dist/js/sweetalert2.min.js') }}"></script>
 
     @stack('scripts')
 </body>

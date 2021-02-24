@@ -40,8 +40,8 @@
                         <span class="nav-link-text">Home</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="documentation.html" >
+                <li class="nav-item {{ (request()->is('editor/publish-article')) ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('publish-article.index') }}" >
                         <span class="feather-icon"><i data-feather="edit"></i></span>
                         <span class="nav-link-text">Publish Article</span>
                     </a>
