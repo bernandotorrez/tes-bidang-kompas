@@ -25,9 +25,9 @@
         <h4 class="hk-pg-title">
             <span class="pg-title-icon">
                 <span class="feather-icon">
-                    <i data-feather="book"></i>
+                    <i data-feather="eye"></i>
                 </span>
-            </span>Your Article
+            </span>List Article
         </h4>
     </div>
     <!-- /Title -->
@@ -161,7 +161,7 @@
             title: 'Created Date'
         },
         {
-            data: 'user_published.name',
+            data: 'user_published',
             name: 'published_by',
             title: 'Published By'
         },

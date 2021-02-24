@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CreateUserController;
 use App\Http\Controllers\PostArticleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -46,6 +47,19 @@ Route::middleware(['auth'])->group(function() {
             Route::get('/get/{id?}', [PublishingArticleController::class, 'get'])->name('publish-article.get');
             Route::post('/update', [PublishingArticleController::class, 'update'])->name('publish-article.update');
             Route::get('/datatable', [PublishingArticleController::class, 'datatable'])->name('publish-article.datatable');
+        });
+    });
+
+    // Admin Page
+    Route::group(['prefix' => 'admin', 'middleware' => ['auth.admin']], function() {
+        // Admin/user
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('/', [CreateUserController::class, 'index'])->name('user.index');
+            Route::post('/insert', [CreateUserController::class, 'insert'])->name('user.insert');
+            Route::get('/get/{id?}', [CreateUserController::class, 'get'])->name('user.get');
+            Route::post('/update', [CreateUserController::class, 'update'])->name('user.update');
+            Route::post('/delete', [CreateUserController::class, 'delete'])->name('user.delete');
+            Route::get('/datatable', [CreateUserController::class, 'datatable'])->name('user.datatable');
         });
     });
 });

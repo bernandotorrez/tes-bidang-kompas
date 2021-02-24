@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Post Article')
+@section('title', 'Create User')
 
 @push('styles')
  <!-- Data Table CSS -->
@@ -12,8 +12,8 @@
 <!-- Breadcrumb -->
 <nav class="hk-breadcrumb" aria-label="breadcrumb">
     <ol class="breadcrumb breadcrumb-light bg-transparent">
-        <li class="breadcrumb-item"><a href="#">Reporter</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Write Article</li>
+        <li class="breadcrumb-item"><a href="#">Admin</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create User</li>
     </ol>
 </nav>
 <!-- /Breadcrumb -->
@@ -25,9 +25,9 @@
         <h4 class="hk-pg-title">
             <span class="pg-title-icon">
                 <span class="feather-icon">
-                    <i data-feather="book"></i>
+                    <i data-feather="user-plus"></i>
                 </span>
-            </span>Your Article
+            </span>Create User
         </h4>
     </div>
     <!-- /Title -->
@@ -59,21 +59,35 @@
                                 <form id="crud-form" method="post">
                                     <div id="response-message" class="text-center"></div>
 
-                                    <input type="hidden" class="form-control" maxlength="100"
-                                    id="id_article" name="id_article" value="0">
-
                                     <div class="form-group">
-                                        <label for="title">Title</label>
+                                        <label for="username">Username</label>
                                         <input type="text" class="form-control" maxlength="250"
-                                            id="title" name="title" placeholder="Contoh : Title">
-                                        <div class="invalid-feedback validation" data-field="title"></div>
+                                            id="username" name="username" placeholder="Contoh : Username" autocomplete="off">
+                                        <div class="invalid-feedback validation" data-field="username"></div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="body">Body</label>
-                                        <textarea class="form-control mt-15" rows="5"
-                                            id="body" name="body" placeholder="Textarea"></textarea>
-                                        <div class="invalid-feedback validation" data-field="body"></div>
+                                        <label for="name">Name</label>
+                                        <input type="text" class="form-control" maxlength="250"
+                                            id="name" name="name" placeholder="Contoh : Name" autocomplete="off">
+                                        <div class="invalid-feedback validation" data-field="name"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="text" class="form-control" maxlength="250"
+                                            id="password" name="password" placeholder="Contoh : Password">
+                                        <div class="invalid-feedback validation" data-field="password"></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="level">Level</label>
+                                        <select class="form-control" id="level" name="level">
+                                            <option value="">- Choose level -</option>
+                                            <option value="Rpt">Reporter</option>
+                                            <option value="Edt">Editor</option>
+                                        </select>
+                                        <div class="invalid-feedback validation" data-field="level"></div>
                                     </div>
                                 </form>
                             </div>
@@ -140,44 +154,19 @@
             title: 'No',
         },
         {
-            data: 'user_created.name',
-            name: 'created_by',
-            title: 'Posted By',
+            data: 'username',
+            name: 'username',
+            title: 'Username',
         },
         {
-            data: 'title',
-            name: 'title',
-            title: 'Title'
+            data: 'name',
+            name: 'name',
+            title: 'Name'
         },
         {
-            data: 'body',
-            name: 'body',
-            title: 'Body'
-        },
-        {
-            data: 'createdDate',
-            name: 'createdDate',
-            title: 'Created Date'
-        },
-        {
-            data: 'user_published',
-            name: 'published_by',
-            title: 'Published By'
-        },
-        {
-            data: 'statusPublish',
-            name: 'statusPublish',
-            title: 'Status Publish'
-        },
-        {
-            data: 'publishedDate',
-            name: 'publishedDate',
-            title: 'Published Date'
-        },
-        {
-            data: 'page_view',
-            name: 'page_view',
-            title: 'Page View'
+            data: 'level',
+            name: 'level',
+            title: 'Level'
         },
     ]
 
@@ -191,7 +180,7 @@
             sLengthMenu: "_MENU_items"
 
             },
-            ajax: '{!! route('post-article.datatable') !!}',
+            ajax: '{!! route('user.datatable') !!}',
             columns: column
         });
     });
@@ -249,7 +238,7 @@
                 sLengthMenu: "_MENU_items"
 
                 },
-                ajax: '{!! route('post-article.datatable') !!}',
+                ajax: '{!! route('user.datatable') !!}',
                 columns: column
             });
     }
@@ -284,7 +273,7 @@
         var validationEl = $('.validation')
 
         $.ajax({
-            url: '{{ route('post-article.insert') }}',
+            url: '{{ route('user.insert') }}',
             method: 'POST',
             dataType: 'JSON',
             data: data,
@@ -334,7 +323,7 @@
         var id = document.querySelectorAll('.checkId:checked')[0].value
 
         $.ajax({
-            url: '{{ route('post-article.get') }}/'+id,
+            url: '{{ route('user.get') }}/'+id,
             method: 'GET',
             dataType: 'JSON',
             headers: {
@@ -351,6 +340,8 @@
                     for(property in data) {
                         $('#'+property).val(data[property])
                     }
+
+                    $('#username').prop('readonly', true)
 
                     $('#modalLabel').text('Edit Data')
                     $('#modal').modal({
@@ -371,7 +362,7 @@
         var validationEl = $('.validation')
 
         $.ajax({
-            url: '{{ route('post-article.update') }}',
+            url: '{{ route('user.update') }}',
             method: 'POST',
             dataType: 'JSON',
             data: data,
@@ -437,7 +428,7 @@
             showLoaderOnConfirm: true,
             preConfirm: () => {
                 return $.ajax({
-                    url: '{{ route('post-article.delete') }}',
+                    url: '{{ route('user.delete') }}',
                     method: 'POST',
                     dataType: 'JSON',
                     data: data,

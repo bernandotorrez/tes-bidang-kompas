@@ -55,7 +55,7 @@
                                                 <div class="invalid-feedback validation" data-field="password"></div>
 											</div>
 										</div>
-										<button class="btn btn-primary btn-block" type="submit">Login</button>
+										<button class="btn btn-primary btn-block" type="submit" id="login-button">Login</button>
 									</form>
 								</div>
 							</div>

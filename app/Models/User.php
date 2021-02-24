@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
 
     protected $table = 'tbl_user';
     protected $primaryKey = 'username';
@@ -23,8 +23,6 @@ class User extends Authenticatable
     protected $fillable = [
         'username',
         'name',
-        'email',
-        'email_verified_at',
         'password',
         'level',
         'status',
@@ -38,15 +36,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
     ];
 
     protected $orderBy = [

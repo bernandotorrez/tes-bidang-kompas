@@ -42,7 +42,7 @@
                 </li>
                 <li class="nav-item {{ (request()->is('editor/publish-article')) ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('publish-article.index') }}" >
-                        <span class="feather-icon"><i data-feather="edit"></i></span>
+                        <span class="feather-icon"><i data-feather="eye"></i></span>
                         <span class="nav-link-text">Publish Article</span>
                     </a>
                 </li>
@@ -55,9 +55,9 @@
                         <span class="nav-link-text">Home</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="documentation.html" >
-                        <span class="feather-icon"><i data-feather="edit"></i></span>
+                <li class="nav-item {{ (request()->is('admin/user')) ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('user.index') }}" >
+                        <span class="feather-icon"><i data-feather="user-plus"></i></span>
                         <span class="nav-link-text">Create User</span>
                     </a>
                 </li>

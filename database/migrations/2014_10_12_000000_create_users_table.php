@@ -18,10 +18,8 @@ class CreateUsersTable extends Migration
         if (!Schema::hasTable('tbl_user')) {
             Schema::create('tbl_user', function (Blueprint $table) {
                 $table->string('username', 100)->primary();
-                $table->string('name');
-                $table->string('email')->unique();
-                $table->timestamp('email_verified_at')->nullable();
-                $table->string('password');
+                $table->string('name', 250);
+                $table->string('password', 100);
                 $table->dateTime('login_at')->nullable();
                 $table->enum('level', ['Rpt', 'Edt', 'Adm'])->default('Rpt')->comment('Rpt : Reporter, Edt : Editor, Adm : Admin');
                 $table->enum('status', ['0', '1'])->default('1')->comment('Status Active');

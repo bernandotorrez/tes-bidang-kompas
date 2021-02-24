@@ -147,6 +147,9 @@ class PublishingArticleController extends Controller
         ->addColumn('statusPublish', function($data) {
             return ($data->published == '0') ? 'Unpublish' : 'Published';
         })
+        ->addColumn('user_published', function($data) {
+            return $data->published_by ?? '-';
+        })
         ->make(true);
 
     }

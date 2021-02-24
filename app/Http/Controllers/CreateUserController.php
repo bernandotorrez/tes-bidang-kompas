@@ -2,46 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostArticleRequest;
-use App\Models\Article;
-use App\Models\User;
-use App\Repository\Eloquent\ArticleRepository;
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\EditUserRequest;
+use App\Repository\Eloquent\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 
-class PostArticleController extends Controller
+class CreateUserController extends Controller
 {
     protected $model;
 
-    public function __construct(ArticleRepository $model)
+    public function __construct(UserRepository $model)
     {
         $this->model = $model;
     }
 
     public function index()
     {
-        return view('pages.post-article.index');
+        return view('pages.user.index');
     }
 
-    public function insert(PostArticleRequest $request)
+    public function insert(CreateUserRequest $request)
     {
         $validated = $request->validated();
 
         $data = array(
-            'title' => $validated['title'],
-            'body' => $validated['body'],
-            'created_by' => Auth::user()['username'],
+            'username' => $validated['username'],
+            'name' => $validated['name'],
+            'password' => Hash::make($validated['password']),
+            'level' => $validated['level']
         );
 
-        $where = array('title' => $data['title']);
+        $where = array('username' => $data['username']);
         $checkDuplicate = $this->model->findDuplicate($where);
 
         if($checkDuplicate > 0) {
             return response()->json([
                 'httpStatus' => 200,
                 'status' => 'failed',
-                'message' => '<div class="alert alert-info">Judul Article : <strong>'.$data['title'].'</strong> Already Exist!</div>',
+                'message' => '<div class="alert alert-info">Username : <strong>'.$data['username'].'</strong> Already Exist!</div>',
                 'data' => null
             ]);
         } else {
@@ -100,30 +101,40 @@ class PostArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostArticleRequest $request)
+    public function update(EditUserRequest $request)
     {
         $validated = $request->validated();
 
-        $data = [
-            'title' => $validated['title'],
-            'body' => $validated['body'],
-        ];
+        if($validated['password']) {
+            $data = array(
+                'username' => $validated['username'],
+                'name' => $validated['name'],
+                'password' => Hash::make($validated['password']),
+                'level' => $validated['level']
+            );
+        } else {
+            $data = array(
+                'username' => $validated['username'],
+                'name' => $validated['name'],
+                'level' => $validated['level']
+            );
+        }
 
         $where = array(
-            'title' => $validated['title']
+            'username' => $validated['username']
         );
 
-        $checkDuplicate = $this->model->findDuplicateEdit($validated['id_article'], $where);
+        $checkDuplicate = $this->model->findDuplicateEdit($validated['username'], $where);
 
         if($checkDuplicate > 0) {
             return response()->json([
                 'httpStatus' => '200',
                 'status' => 'failed',
-                'message' => '<div class="alert alert-info">Judul Article : <strong>'.$data['title'].'</strong> Already Exist!</div>',
+                'message' => '<div class="alert alert-info">Username : <strong>'.$data['username'].'</strong> Already Exist!</div>',
                 'data' => null
             ], 200);
         } else {
-            $update = $this->model->update($validated['id_article'], $data);
+            $update = $this->model->update($validated['username'], $data);
 
             if($update) {
                 return response()->json([
@@ -164,31 +175,27 @@ class PostArticleController extends Controller
 
     public function datatable()
     {
-        $datas = $this->model->allActiveRelation(['UserCreated', 'UserPublished']);
+        $datas = $this->model->allActive();
 
         return DataTables::of($datas)
         ->addIndexColumn()
         ->addColumn('action', function($data) {
             return '<div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input child-chk checkId"
-            onclick="updateCheck('.$data->id_article.')"
-            id="'.$data->id_article.'"
-            value="'.$data->id_article.'"
-            data-published="'.$data->published.'">
-            <label class="custom-control-label" for="'.$data->id_article.'"></label>
+            onclick="updateCheck('.$data->username.')"
+            id="'.$data->username.'"
+            value="'.$data->username.'">
+            <label class="custom-control-label" for="'.$data->username.'"></label>
             </div>';
         })
-        ->addColumn('createdDate', function($data) {
-            return ($data->created_at != '') ? date('d M Y H:i:s', strtotime($data->created_at)) : '-';
-        })
-        ->addColumn('publishedDate', function($data) {
-            return ($data->published_date != '') ? date('d M Y H:i:s', strtotime($data->published_date)) : '-';
-        })
-        ->addColumn('statusPublish', function($data) {
-            return ($data->published == '0') ? 'Unpublish' : 'Published';
-        })
-        ->addColumn('user_published', function($data) {
-            return $data->published_by ?? '-';
+        ->addColumn('level', function($data) {
+            if($data->level == 'Rpt') {
+                return 'Reporter';
+            } else if($data->level == 'Edt') {
+                return 'Editor';
+            } else {
+                return 'Admin';
+            }
         })
         ->make(true);
 
