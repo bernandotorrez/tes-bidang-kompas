@@ -21,7 +21,7 @@ Informasi Login :
     1.1 username    : editor
         password    : editor
         
-Setelah aplikasi dijalankan melalui docker, silahkan untuk melakukan migrasi dan seeding.
+Setelah aplikasi dijalankan melalui docker, silahkan untuk melakukan migrasi dan seeding serta composer install.
 
 Fitur :
 
@@ -33,4 +33,4 @@ Fitur :
 Note :
 
 1. Setelah melakukan docker-compose, harap masuk ke terminal Image nya, lalu ubah permission di folder Storage menjadi 775 / 777
-2. Lakukan perintah : php artisan optimize:clear | php artisan config:cache | php artisan migrate | php artisan db:seed
+2. Lakukan perintah : composer install | php artisan optimize:clear | php artisan config:cache | php artisan migrate | php artisan db:seed
