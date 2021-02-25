@@ -4,7 +4,7 @@ Nama : Bernand Dayamuntari Hermawan
 
 Teknologi yang saya pakai :
 
-1. PHP Framework (Larevel 8)
+1. PHP Framework (Laravel 8)
 2. Docker (Using Laravel Sail)
 
 Informasi Login :
